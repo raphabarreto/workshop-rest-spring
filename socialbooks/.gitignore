@@ -1,0 +1,11 @@
+*.class
+.DS_Store
+.metadata
+.settings
+.classpath
+.project
+.mvn
+mvnw.cmd
+mvnw
+bin/
+target/
