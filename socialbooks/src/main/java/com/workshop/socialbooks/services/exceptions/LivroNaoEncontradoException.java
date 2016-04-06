@@ -5,7 +5,7 @@ public class LivroNaoEncontradoException extends RuntimeException {
 	private static final long serialVersionUID = 7212156727789632218L;
 
 	public LivroNaoEncontradoException(String mensagem) {
-		super();
+		super(mensagem);
 	}
 
 	public LivroNaoEncontradoException(String mensagem, Throwable causa) {
