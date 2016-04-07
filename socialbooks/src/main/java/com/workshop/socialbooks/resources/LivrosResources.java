@@ -1,7 +1,6 @@
 package com.workshop.socialbooks.resources;
 
 import java.net.URI;
-import java.time.zone.ZoneOffsetTransitionRule.TimeDefinition;
 import java.util.List;
 import java.util.concurrent.TimeUnit;
 
