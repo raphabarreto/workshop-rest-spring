@@ -1,4 +1,4 @@
-package com.workshop.socialbooks.aplicacao;
+package com.workshop.sociabooks.client.domain;
 
 import java.util.Date;
 import java.util.List;
