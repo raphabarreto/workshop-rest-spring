@@ -2,6 +2,7 @@ package com.workshop.sociabooks.client;
 
 import java.net.URI;
 import java.util.Arrays;
+import java.util.Base64;
 import java.util.List;
 
 import org.springframework.http.RequestEntity;
@@ -12,10 +13,22 @@ import com.workshop.sociabooks.client.domain.Livro;
 
 public class LivrosClient {
 
+	private RestTemplate restTemplate;
+	private String URI_BASE;
+	private String URN_BASE = "/livros";
+	private String credencial;
+
+	public LivrosClient(String url, String usuario, String senha) {
+		restTemplate = new RestTemplate();
+		URI_BASE = url.concat(URN_BASE);
+		String credencialAux = usuario + ":" + senha;
+		credencial = "Basic " + Base64.getEncoder().encodeToString(credencialAux.getBytes());
+
+	}
+
 	public List<Livro> listar() {
-		RestTemplate restTemplate = new RestTemplate();
-		RequestEntity<Void> request = RequestEntity.get(URI.create("http://localhost:8080/livros"))
-				.header("Authorization", "Basic cmFwaGFlbDpzM25oNA==").build();
+		RequestEntity<Void> request = RequestEntity.get(URI.create(URI_BASE))
+				.header("Authorization", credencial).build();
 
 		ResponseEntity<Livro[]> response = restTemplate.exchange(request, Livro[].class);
 
@@ -23,13 +36,19 @@ public class LivrosClient {
 	}
 
 	public String salvar(Livro livro) {
-		RestTemplate restTemplate = new RestTemplate();
-
-		RequestEntity<Livro> request = RequestEntity.post(URI.create("http://localhost:8080/livros"))
-				.header("Authorization", "Basic cmFwaGFlbDpzM25oNA==").body(livro);
+		RequestEntity<Livro> request = RequestEntity.post(URI.create(URI_BASE))
+				.header("Authorization", credencial).body(livro);
 
 		ResponseEntity<Void> response = restTemplate.exchange(request, Void.class);
 
 		return response.getHeaders().getLocation().toString();
+	}
+
+	public Livro buscar(String uri) {
+		RequestEntity<Void> request = RequestEntity.get(URI.create(uri))
+				.header("Authorization", credencial).build();
+
+		ResponseEntity<Livro> response = restTemplate.exchange(request, Livro.class);
+		return response.getBody();
 	}
 }
